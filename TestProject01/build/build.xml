@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.quest.toad.build" default="test" basedir="." xmlns:jacoco="antlib:org.jacoco.ant" xmlns:unless="ant:unless">
+  
+  <property name="coverage"  value="false"/>
+  <property file="build.properties"/>
+ 
+	<target name="compile">
+			<javac destdir="${artifactory.dir}" srcdir="../">
+				<include name="**/src/**"/>
+			</javac>
+		</target>
+	
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+    <classpath>
+			<pathelement location="${test.lib.dir}/jacocoant.jar" />
+		</classpath>
+	</taskdef>
+  
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="${test.lib.dir}/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+    
+  <path id="classpath.test">
+    <fileset dir="${test.lib.dir}">
+      <include name="**/*.jar" />
+    </fileset>
+    
+  	<pathelement location="${artifactory.dir}/"/>
+  	<pathelement location="${test.build.dir}/"/>
+  </path>
+  
+  
+  
+  
+  <target name="test">
+  	<antcall target="clean"/>
+  	<antcall target="init-build-dir"/>
+    <antcall target="test-compile"/>
+    
+    <if>
+      <equals arg1="${coverage}" arg2="true" />
+      <then>
+        <antcall target="extract-classes-from-jars"/>  <!-- extrac tefm classed for jacoco  -->
+        <antcall target="test-with-coverage-run"/>
+      </then>
+      <else>
+        <antcall target="test-run"/>
+      </else>
+    </if>
+    
+  </target>
+  
+	<target name="clean">
+	    <delete dir="${test.build.dir}/" />
+	    <delete dir="${test.report.dir}/" />
+	  </target>
+	
+	<target name="init-build-dir">
+	     <mkdir dir="${test.build.dir}"/>
+	     <mkdir dir="${test.report.dir}"/>
+	  </target>
+  
+  <target name="test-compile">
+    <javac destdir="${test.build.dir}" includeantruntime="false">
+        <classpath refid="classpath.test"/>
+    	<classpath path="../test"/>
+    	<src path="${test.src.dir}"/>
+    	<include name="**/test/**"/>
+    	<exclude name="**/src/**"/>
+    	<exclude name="**/build/**"/>
+    </javac>
+  </target>
+
+
+  
+  <target name="test-with-coverage-run">
+    <jacoco:coverage destfile="${jacoco.report.file}" includes="com.quest.toad.*">
+      <junit printsummary="on" haltonfailure="no" fork="true">
+        <classpath refid="classpath.test" />
+        <formatter type="xml"/>
+        <batchtest todir="${test.report.dir}">
+            <fileset dir="${test.build.dir}/" includes="**/MasterSuite.class" />
+        </batchtest>
+      </junit>
+    </jacoco:coverage>
+  </target>
+  
+  <target name="test-run">
+    <junit printsummary="on" haltonfailure="no" fork="true">
+        <classpath refid="classpath.test" />
+        <formatter type="xml"/>
+        <batchtest todir="${test.report.dir}">
+            <fileset dir="${test.build.dir}/" includes="**/MasterSuite.class" />
+        </batchtest>
+    </junit>  
+  </target>
+  
+</project>
