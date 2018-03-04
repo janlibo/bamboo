@@ -5,6 +5,8 @@
   <property file="build.properties"/>
  
 	<target name="compile">
+		<delete dir="${artifactory.dir}/" />
+		<mkdir dir="${artifactory.dir}"/>
 			<javac destdir="${artifactory.dir}" srcdir="../">
 				<include name="**/src/**"/>
 			</javac>
