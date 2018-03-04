@@ -65,7 +65,7 @@
 	  </target>
   
   <target name="test-compile">
-    <javac srcdir="." destdir="${test.build.dir}" includeantruntime="false">
+    <javac srcdir="../" destdir="${test.build.dir}" includeantruntime="false">
         <classpath refid="classpath.test"/>
     	<classpath path="../test"/>
 	<classpath path="build/artifacts/"/>
