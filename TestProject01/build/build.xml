@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Bamboo test build" default="test" basedir="." xmlns:jacoco="antlib:org.jacoco.ant" xmlns:unless="ant:unless">
+<project name="Bamboo test build." default="test" basedir="." xmlns:jacoco="antlib:org.jacoco.ant" xmlns:unless="ant:unless">
   
   <property name="coverage"  value="false"/>
   <property file="build.properties"/>
