@@ -68,7 +68,7 @@
     <javac srcdir="../" destdir="${test.build.dir}" includeantruntime="false">
         <classpath refid="classpath.test"/>
     	<classpath path="../test"/>
-	<classpath path="build/artifacts/"/>
+	<classpath path="/home/johan/bamboo-agent-home/xml-data/build-dir/PROJ-PLAN-UT/TestProject01/build/artifacts/"/>
     	<include name="**/test/**"/>
     	<exclude name="**/src/**"/>
     	<exclude name="**/build/**"/>
