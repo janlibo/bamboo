@@ -38,9 +38,7 @@
   
   
   <target name="test">
-  	<antcall target="clean"/>
-  	<antcall target="init-build-dir"/>
-    <antcall target="test-compile"/>
+  	<antcall target="init-tests" />
     
     <if>
       <equals arg1="${coverage}" arg2="true" />
@@ -51,8 +49,18 @@
         <antcall target="test-run"/>
       </else>
     </if>
-    
   </target>
+	
+	<target name="test2">
+	  	<antcall target="init-tests" />
+		<antcall target="test-run2"/>
+	  </target>
+	
+	<target name="init-tests">
+		<antcall target="clean"/>
+		<antcall target="init-build-dir"/>
+		<antcall target="test-compile"/>
+	</target>
   
 	<target name="clean">
 	    <delete dir="${test.build.dir}/" />
@@ -98,5 +106,15 @@
         </batchtest>
     </junit>  
   </target>
+	
+	<target name="test-run2">
+	    <junit printsummary="on" haltonfailure="no" fork="true">
+	        <classpath refid="classpath.test" />
+	        <formatter type="xml"/>
+	        <batchtest todir="${test.report.dir}">
+	            <fileset dir="${test.build.dir}/" includes="**/MasterSuite2.class" />
+	        </batchtest>
+	    </junit>  
+	  </target>
   
 </project>
