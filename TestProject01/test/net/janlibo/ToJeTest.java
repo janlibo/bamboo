@@ -9,7 +9,7 @@ public class ToJeTest {
 	@Test
 	public void testNumber() {
 		Trida01 t = new Trida01();
-		assertTrue(t.returnNumber() == 2);
+		assertTrue(t.returnNumber() == 1);
 	}
 	
 	@Test
